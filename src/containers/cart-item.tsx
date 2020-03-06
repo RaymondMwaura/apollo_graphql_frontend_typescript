@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-
 import LaunchTile from '../components/launch-tile';
-import LAUNCH_TILE_DATA from '../pages/launches';
+import { LAUNCH_TILE_DATA } from '../pages/launches';
 import * as LaunchDetailTypes from '../pages/__generated__/LaunchDetails';
 
 export const GET_LAUNCH = gql`
@@ -18,7 +18,8 @@ export const GET_LAUNCH = gql`
 type CartItemProps = LaunchDetailTypes.LaunchDetailsVariables
 
 const CartItem: React.FC<CartItemProps> = ({ launchId }) => {
-  const { data, loading, error } = useQuery(
+  // eslint-disable-next-line max-len
+  const { data, loading, error } = useQuery<LaunchDetailTypes.LaunchDetails, LaunchDetailTypes.LaunchDetailsVariables>(
     GET_LAUNCH,
     { variables: { launchId } },
   );
@@ -31,7 +32,8 @@ const CartItem: React.FC<CartItemProps> = ({ launchId }) => {
       </p>
     );
   }
-  return data && <LaunchTile launch={data.launch} />;
+  if (!data) return <p>Not found</p>;
+  return data.launch && <LaunchTile launch={data.launch} />;
 };
 
 export default CartItem;

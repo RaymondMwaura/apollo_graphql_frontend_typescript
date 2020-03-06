@@ -1,1 +1,1 @@
-### Apollo GraphQL front-end
+### Apollo GraphQL front-end (TypeScript)
